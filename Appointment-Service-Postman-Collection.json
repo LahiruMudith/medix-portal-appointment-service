@@ -1,0 +1,184 @@
+{
+  "info": {
+    "_postman_id": "appointment-service-uuid-3",
+    "name": "Appointment Service API",
+    "description": "Postman Collection for testing the Appointment-Service directly (port 8002) or via API Gateway (port 7000). Cross-checks patient ID and doctor schedules.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Book Appointment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.id) {",
+              "    pm.globals.set(\"last_appointment_id\", jsonData.id);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"appointmentDate\": \"2026-09-14\",\n  \"appointmentTime\": \"10:30 AM\",\n  \"patientId\": \"716500500V\",\n  \"doctorId\": \"{{last_doctor_id}}\",\n  \"status\": \"SCHEDULED\",\n  \"notes\": \"Initial consultation regarding pediatric concerns\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Appointments",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Filter Appointments by Patient NIC",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments?patientId=716500500V",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments"
+          ],
+          "query": [
+            {
+              "key": "patientId",
+              "value": "716500500V"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reschedule Appointment",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"appointmentDate\": \"2026-09-14\",\n  \"appointmentTime\": \"11:00 AM\",\n  \"patientId\": \"716500500V\",\n  \"doctorId\": \"{{last_doctor_id}}\",\n  \"status\": \"SCHEDULED\",\n  \"notes\": \"Rescheduled to 11:00 AM due to slot delay\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments/{{last_appointment_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments",
+            "{{last_appointment_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Complete Appointment Status",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"appointmentDate\": \"2026-09-14\",\n  \"appointmentTime\": \"11:00 AM\",\n  \"patientId\": \"716500500V\",\n  \"doctorId\": \"{{last_doctor_id}}\",\n  \"status\": \"COMPLETED\",\n  \"notes\": \"Patient attended. Diagnosis complete.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments/{{last_appointment_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments",
+            "{{last_appointment_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel and Delete Appointment",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/appointments/{{last_appointment_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "appointments",
+            "{{last_appointment_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8002",
+      "type": "string"
+    }
+  ]
+}
