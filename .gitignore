@@ -4,5 +4,6 @@ target/
 .classpath
 .project
 .settings/
-.vscode/
 *.log
+config.bat
+node_modules

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: appointment-service
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      uri: http://config.platform:8888
+
+eureka:
+  instance:
+    prefer-ip-address: true
