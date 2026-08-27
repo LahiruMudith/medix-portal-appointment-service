@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>lk.ijse.cms</groupId>
-    <artifactId>service-appointment</artifactId>
+    <artifactId>appointment-service</artifactId>
     <version>1.0.0</version>
     <name>Appointment-Service</name>
     <description>Appointment Microservice for Clinic Management System</description>
@@ -47,6 +47,11 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <!-- Spring Cloud Config, Eureka & LoadBalancer -->
